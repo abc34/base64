@@ -2,7 +2,7 @@
 //s    - input blob (byte array)
 //slen - length s
 //out  - output char array,
-//       out length = int((slen+2)/3*4) (without '\0' termination)
+//       out length = int((slen+2)/3)*4 (without '\0' termination)
 int Base64Enc(const unsigned char* s,int slen, unsigned char* out)
 {
 	const static unsigned char* codesym="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
@@ -33,7 +33,7 @@ int Base64Enc(const unsigned char* s,int slen, unsigned char* out)
 //decoding base64 string to blob (byte array)
 //s    - input base64 string
 //slen - length s
-//out  - output byte array, out length = int(slen/4*3),
+//out  - output byte array, out length = int(slen/4)*3,
 //       out may be the same as s (inplace)
 int Base64Dec(const unsigned char* s,int slen,unsigned char* out)
 {
