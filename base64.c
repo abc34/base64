@@ -64,9 +64,9 @@ int Base64Dec(const unsigned char* s,int slen,unsigned char* out)
 		*out++=c>>16;*out++=c>>8;*out++=c;
 	}
 	a=symdec[*s++];b|=a;c=a;c<<=6;
-	a=symdec[*s++];b|=a;c|=a;
-	c<<=6;if(s[0]!='='){a=symdec[s[0]];b|=a;c|=a;}
-	c<<=6;if(s[1]!='='){a=symdec[s[1]];b|=a;c|=a;}
+	a=symdec[*s++];b|=a;c|=a;c<<=6;		
+        if(s[0]!='='){a=symdec[s[0]];b|=a;c|=a;}c<<=6;	
+        if(s[1]!='='){a=symdec[s[1]];b|=a;c|=a;}
 	if(b>63)return -1;
 	*out++=c>>16;
 	if(s[0]!='=')*out++=c>>8;
