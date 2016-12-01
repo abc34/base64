@@ -33,7 +33,8 @@ int Base64Enc(const unsigned char* s,int slen, unsigned char* out)
 //decoding base64 string to blob (byte array)
 //s    - input base64 string
 //slen - length s, divisible by 4
-//out  - output byte array, out length = int(slen/4)*3,
+//out  - output byte array, out length = int(slen/4)*3-num_eq,
+//                          num_eq - the number of tail symbols '=',
 //       out may be the same as s (inplace)
 int Base64Dec(const unsigned char* s,int slen,unsigned char* out)
 {
