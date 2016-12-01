@@ -35,7 +35,7 @@ int Base64Enc(const unsigned char* s,int slen, unsigned char* out)
 	return 0;
 }
 //decoding base64 character array to blob (byte array)
-//s    - input base64 character array,
+//s    - input base64 character array (not included '\r','\n',' '),
 //slen - length of s, divisible by 4,
 //out  - output byte array,
 //       output length = slen/4*3-num_eq,
