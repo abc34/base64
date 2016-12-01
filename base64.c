@@ -32,7 +32,7 @@ int Base64Enc(const unsigned char* s,int slen, unsigned char* out)
 }
 //decoding base64 string to blob (byte array)
 //s    - input base64 string
-//slen - length s
+//slen - length s, divisible by 4
 //out  - output byte array, out length = int(slen/4)*3,
 //       out may be the same as s (inplace)
 int Base64Dec(const unsigned char* s,int slen,unsigned char* out)
@@ -47,7 +47,7 @@ int Base64Dec(const unsigned char* s,int slen,unsigned char* out)
 	-1,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,
 	41,42,43,44,45,46,47,48,49,50,51,-1,-1,-1,-1,-1};
 	unsigned int c,len=slen/4-1;unsigned char a,b=0;
-	if(slen<4)return -1;
+	if(slen<4 || slen&3)return -1;
 	while(len--)
 	{
 		a=symdec[*s++];b|=a; c=a;c<<=6;
