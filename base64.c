@@ -1,7 +1,7 @@
-//encoding blob to base64 string
+//encoding blob to base64 character array
 //s    - input blob (byte array),
 //slen - length of s,
-//out  - output char array (without terminating character '\0'),
+//out  - output character array (without terminating character '\0'),
 //       output length = int((slen+2)/3)*4
 int Base64Enc(const unsigned char* s,int slen, unsigned char* out)
 {
@@ -34,8 +34,8 @@ int Base64Enc(const unsigned char* s,int slen, unsigned char* out)
 	}
 	return 0;
 }
-//decoding base64 string to blob (byte array)
-//s    - input base64 string,
+//decoding base64 character array to blob (byte array)
+//s    - input base64 character array,
 //slen - length of s, divisible by 4,
 //out  - output byte array,
 //       output length = int(slen/4)*3-num_eq,
