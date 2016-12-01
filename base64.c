@@ -10,7 +10,11 @@ int Base64Enc(const unsigned char* s,int slen, unsigned char* out)
 	if(slen<=0)return -1;
 	while(len--)
 	{
-		c=*s++;c<<=8;c|=*s++;c<<=8;c|=*s++;*out++=codesym[(c>>18)&0x3F];*out++=codesym[(c>>12)&0x3F];*out++=codesym[(c>>6)&0x3F];*out++=codesym[(c)&0x3F];
+		c=*s++;c<<=8;c|=*s++;c<<=8;c|=*s++;
+		*out++=codesym[(c>>18)&0x3F];
+		*out++=codesym[(c>>12)&0x3F];
+		*out++=codesym[(c>>6)&0x3F];
+		*out++=codesym[(c)&0x3F];
 	}
 	if(slen%3 == 2)
 	{
