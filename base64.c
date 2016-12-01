@@ -1,8 +1,8 @@
 //encoding blob to base64 string
 //s    - input blob (byte array)
 //slen - length s
-//out  - output char array,
-//       out length = int((slen+2)/3)*4 (without '\0' termination)
+//out  - output char array (without terminating character '\0'),
+//       out length = int((slen+2)/3)*4
 int Base64Enc(const unsigned char* s,int slen, unsigned char* out)
 {
 	const static unsigned char* codesym="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
