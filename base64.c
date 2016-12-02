@@ -48,7 +48,7 @@ int Base64Enc(const unsigned char* s,int slen, unsigned char* out)
 //returns
 //      the number of characters actually written to the output array
 //      or -1 on error.
-int Base64Dec(const unsigned char* s,int slen,unsigned char* out)
+int Base64Dec(const unsigned char* s,int slen,unsigned char* out,int outlen)
 {
 	const static unsigned char symdec[] = {
 	127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,127,
@@ -61,7 +61,7 @@ int Base64Dec(const unsigned char* s,int slen,unsigned char* out)
 	 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51,127,127,127,127,127};
 	unsigned int c,len=0;unsigned char a,b,a0,a1;
 	unsigned char* s_end=(unsigned char*)s+slen;
-	if(slen<=0)return -1;
+	if(slen<=0 || outlen<=0)return -1;
 	while(1)
 	{
 		while(s<s_end && (*s=='\r' || *s=='\n' || *s==' '))s++;if(s==s_end)break;
@@ -76,14 +76,15 @@ int Base64Dec(const unsigned char* s,int slen,unsigned char* out)
 		if(a0=='=' && a1!='=')return-1;
 		if(a0=='='||a1=='=')
 		{
-			*out++=c>>16;len++;
+						
+                        *out++=c>>16;len++;
 			if(a0!='='){*out++=c>>8;len++;}
 			while(s<s_end && (*s=='\r' || *s=='\n' || *s==' '))s++;if(s==s_end)break;
 			return-1;
 		}
 		else
 		{
-			//if(len+3>count)return-1;			
+			if(len+3>outlen)return-1;			
                         *out++=c>>16;
 			*out++=c>>8;
 			*out++=c;
