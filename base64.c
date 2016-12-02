@@ -2,19 +2,20 @@
 //s    - input blob (byte array),
 //slen - length of s,
 //out  - output character array (without terminating character '\0'),
-//       output length = int((slen+2)/3)*4
+//       output length = int((slen+2)/3)*4,
+//outlen - output array length,
 //returns
 //      the number of characters actually written to the output array
 //      or -1 on error.
-int Base64Enc(const unsigned char* s,int slen, unsigned char* out)
+int Base64Enc(const unsigned char* s,int slen, unsigned char* out,int outlen)
 {
 	const static unsigned char* codesym="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-	unsigned int c,len=slen/3;
-	if(slen<=0)return-1;
-	while(len--)
+	unsigned int c,count=slen/3,len=(slen+2)/3*4;
+	if(slen<=0 || outlen<=0 || outlen<len)return-1;	
+        while(count--)
 	{
-		c=*s++;c<<=8;c|=*s++;c<<=8;c|=*s++;
-		*out++=codesym[(c>>18)&0x3F];
+		c=*s++;c<<=8;c|=*s++;c<<=8;c|=*s++;					
+                *out++=codesym[(c>>18)&0x3F];
 		*out++=codesym[(c>>12)&0x3F];
 		*out++=codesym[(c>>6)&0x3F];
 		*out++=codesym[(c)&0x3F];
@@ -35,7 +36,7 @@ int Base64Enc(const unsigned char* s,int slen, unsigned char* out)
 		*out++='=';
 		*out='=';
 	}
-	return (slen+2)/3*4;
+	return len;
 }
 //decoding base64 character array to blob (byte array)
 //s    - input base64 character array (can include '\r','\n',' '),
@@ -45,6 +46,7 @@ int Base64Enc(const unsigned char* s,int slen, unsigned char* out)
 //         s_len_without_spaces - length s without space characters, divisible by 4,
 //         num_eq - the number of tail symbols '=',
 //       out may be the same as s (inplace),
+//outlen - out array length,
 //returns
 //      the number of characters actually written to the output array
 //      or -1 on error.
@@ -78,7 +80,7 @@ int Base64Dec(const unsigned char* s,int slen,unsigned char* out,int outlen)
 		{
                         if(len>=outlen)return-1;						
                         *out++=c>>16;len++;
-			if(a0!='='){*out++=c>>8;len++;}
+			if(a0!='='){if(len>=outlen)return-1;*out++=c>>8;len++;}
 			while(s<s_end && (*s=='\r' || *s=='\n' || *s==' '))s++;if(s==s_end)break;
 			return-1;
 		}
