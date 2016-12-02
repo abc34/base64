@@ -83,7 +83,8 @@ int Base64Dec(const unsigned char* s,int slen,unsigned char* out)
 		}
 		else
 		{
-			*out++=c>>16;
+			//if(len+3>count)return-1;			
+                        *out++=c>>16;
 			*out++=c>>8;
 			*out++=c;
 			len+=3;
