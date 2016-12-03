@@ -7,15 +7,15 @@
 //returns
 //      the number of characters actually written to the output array
 //      or -1 on error.
-int Base64Enc(const unsigned char* s,int slen, unsigned char* out,int outlen)
+int Base64Enc(const unsigned char* s,int slen,unsigned char* out,int outlen)
 {
 	const static unsigned char* codesym="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
-	unsigned int c,count=slen/3,len=(slen+2)/3*4;
+	unsigned int c,count=slen/3;int len=(slen+2)/3*4;
 	if(slen<=0 || outlen<=0 || outlen<len)return-1;	
-        while(count--)
+	while(count--)
 	{
 		c=*s++;c<<=8;c|=*s++;c<<=8;c|=*s++;					
-                *out++=codesym[(c>>18)&0x3F];
+		*out++=codesym[(c>>18)&0x3F];
 		*out++=codesym[(c>>12)&0x3F];
 		*out++=codesym[(c>>6)&0x3F];
 		*out++=codesym[(c)&0x3F];
@@ -61,7 +61,7 @@ int Base64Dec(const unsigned char* s,int slen,unsigned char* out,int outlen)
 	 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25,127,127,127,127,127,
 	127, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
 	 41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51,127,127,127,127,127};
-	unsigned int c,len=0;unsigned char a,b,a0,a1;
+	unsigned int c;int len=0;unsigned char a,b,a0,a1;
 	unsigned char* s_end=(unsigned char*)s+slen;
 	if(slen<=0 || outlen<=0)return -1;
 	while(1)
@@ -78,8 +78,8 @@ int Base64Dec(const unsigned char* s,int slen,unsigned char* out,int outlen)
 		if(a0=='=' && a1!='=')return-1;
 		if(a0=='='||a1=='=')
 		{
-                        if(len>=outlen)return-1;						
-                        *out++=c>>16;len++;
+			if(len>=outlen)return-1;						
+			*out++=c>>16;len++;
 			if(a0!='='){if(len>=outlen)return-1;*out++=c>>8;len++;}
 			while(s<s_end && (*s=='\r' || *s=='\n' || *s==' '))s++;if(s==s_end)break;
 			return-1;
@@ -87,7 +87,7 @@ int Base64Dec(const unsigned char* s,int slen,unsigned char* out,int outlen)
 		else
 		{
 			if(len+3>outlen)return-1;			
-                        *out++=c>>16;
+			*out++=c>>16;
 			*out++=c>>8;
 			*out++=c;
 			len+=3;
