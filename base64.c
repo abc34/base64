@@ -43,7 +43,7 @@ int Base64Enc(const unsigned char* s,int slen,unsigned char* out,int outlen)
 //slen - length of s,
 //out  - output byte array,
 //       output length = s_len_without_spaces/4*3-num_eq,
-//         s_len_without_spaces - length s without space characters, divisible by 4,
+//         s_len_without_spaces - length s without whitespace characters, divisible by 4,
 //         num_eq - the number of tail symbols '=',
 //       out may be the same as s (inplace),
 //outlen - out array length,
