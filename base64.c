@@ -81,9 +81,8 @@ int Base64Dec(const unsigned char* s,int slen,unsigned char* out,int outlen)
 			if(len>=outlen)return-1;						
 			*out++=c>>16;len++;
 			if(a0!='='){if(len>=outlen)return-1;*out++=c>>8;len++;}
-			while(s<s_end && (*s=='\r' || *s=='\n' || *s==' '))s++;if(s==s_end)break;
-			return-1;
-		}
+			break;					
+                }
 		else
 		{
 			if(len+3>outlen)return-1;			
